@@ -1,0 +1,13 @@
+{
+    "name": "Produk",
+    "alias": "produk",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Produk\\Providers\\ProdukServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
