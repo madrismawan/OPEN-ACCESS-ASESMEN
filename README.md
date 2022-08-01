@@ -14,4 +14,4 @@ Cara menjalankan project
 - FRONTEND-REACT
 1. npm install
 2. npm start
-3. lib digunakan : axios,bootstrap, sweetalert2
+3. lib yang digunakan : axios,bootstrap, sweetalert2
