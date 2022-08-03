@@ -16,12 +16,12 @@ use Modules\Produk\Http\Controllers\ProdukController;
 */
 
 Route::prefix('produk')->group(function() {
-    Route::get('all', [ProdukController::class, 'index']);
-    Route::get('{id}', [ProdukController::class, 'show']);
-    Route::post('create', [ProdukController::class, 'update']);
+    Route::get('all', [ProdukController::class, 'index'])->name('produk.all');
+    Route::get('{id}', [ProdukController::class, 'show'])->name('produk.show');
+    Route::post('create', [ProdukController::class, 'create'])->name('produk.store');
     Route::put('update/{id}', [ProdukController::class, 'update']);
-    Route::delete('delete/{id}', [ProdukController::class, 'destroy']);
+    Route::delete('delete/{id}', [ProdukController::class, 'destroy'])->name('produk.delete');
 
-    Route::post('store', [ProdukController::class, 'updateOrCreate']);
+    Route::post('store', [ProdukController::class, 'updateOrCreate'])->name('produk.update-or-create');
 
 });

@@ -1,11 +1,11 @@
 import React, { Component  } from "react";
 import Card from 'react-bootstrap/Card';
-import CardHeader from 'react-bootstrap/esm/CardHeader';
-import ProdukService from "../services/ProdukService";
 import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2'
+import ProdukService from '../services/ProdukService'
+
 
 
 class Main extends Component{
@@ -21,16 +21,6 @@ class Main extends Component{
             produks: [],
         }
     }
-
-    validate = (values) => {
-        const errors = {};
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-        if (!values.nama) {
-          errors.nama = "Nama is required!";
-        }
-
-        return errors;
-    };
 
     
     componentDidMount(){
@@ -51,14 +41,25 @@ class Main extends Component{
 
     updateOrCreate = (e) => {
         let produk = {id:this.state.id,nama: this.state.nama, keterangan: this.state.keterangan, harga:this.state.harga,persediaan:this.state.persediaan};
-        this.validate(produk)
-
         ProdukService.createOrUpdate(produk).then((res) => {
             this.setState({ produks: res.data.payload});
+            if(produk.id !== ''){
+                Swal.fire(
+                    'Success',
+                    'Berhasil mengubah data',
+                    'success'
+                )
+            }else{
+                Swal.fire(
+                    'Success',
+                    'Berhasil menambahkan data',
+                    'success'
+                )
+            }
         }).catch((exception) => {
             Swal.fire(
                 'Error',
-                exception.response.data.message,
+                'Validasi form input error, harap cek kembali form input anda',
                 'error'
             )
         });
@@ -98,10 +99,10 @@ class Main extends Component{
             
             <div className="container-fluid p-lg-4">
                 <Card>
-                    <CardHeader className="p-lg-4">
+                    <div className="card-header">
                         <Card.Title>Daftar Produk Open Access</Card.Title>
-                    </CardHeader>
-                    <CardHeader>
+                    </div>
+                    <div className="card-header">
                         <Form>
                             <div className="row m-2">
                                 <div className="col-6">
@@ -121,7 +122,7 @@ class Main extends Component{
                             </div>
                             <button className="btn btn-primary float-end mx-4 my-2" type="button" onClick={this.updateOrCreate}> Simpan</button>
                         </Form>
-                    </CardHeader>
+                    </div>
                     <Card.Body>
                         <Table striped bordered hover>
                             <thead>

@@ -39,6 +39,7 @@ class ProdukController extends Controller
      */
     public function create(Request $request)
     {
+
         // SECURITY
         $validator = Validator::make($request->all(), [
             'nama'=> 'required|regex:/^[a-z,. 0-9]+$/i|min:2|max:50',
@@ -70,7 +71,7 @@ class ProdukController extends Controller
 
         // RETURN
         return response()->json([
-            'status' => 200,
+            'status' => 201,
             'message' => 'Berhasil menambahkan data',
             'data' => $data
         ], 200);
@@ -130,6 +131,7 @@ class ProdukController extends Controller
     {
         // SECURITY
         $validator = Validator::make($request->all(), [
+            'id'=> 'exists:produk,id',
             'nama'=> 'required|regex:/^[a-z,. 0-9]+$/i|min:2|max:50',
             'keterangan'=> 'required|regex:/^[a-z,. 0-9]+$/i|min:5|max:50',
             'harga'=> 'required|numeric',
@@ -208,6 +210,24 @@ class ProdukController extends Controller
 
     public function updateOrCreate(Request $request)
     {
+
+        // SECURITY
+          $validator = Validator::make($request->all(), [
+            'nama'=> 'required|regex:/^[a-z,. 0-9]+$/i|min:2|max:50',
+            'keterangan'=> 'required|regex:/^[a-z,. 0-9]+$/i|min:5|max:50',
+            'harga'=> 'required|numeric',
+            'persediaan'=> 'required|numeric'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Validation error',
+                'data' => $validator->errors(),
+            ], 400);
+        }
+        // END
+
         // MAIN
         try{
             $data = $this->produkRepository->updateOrCreate($request->id,$request->all());
@@ -222,14 +242,11 @@ class ProdukController extends Controller
 
         // RETURN
         return response()->json([
-            'status' => 200,
-            'message' => 'Berhasil menghapus data',
+            'status' => 201,
+            'message' => 'Berhasil membuat data',
             'payload' => $this->produkRepository->getAll()
-        ], 200);
+        ], 201);
         // END
-
     }
-
-
 
 }
